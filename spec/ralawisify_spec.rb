@@ -1,17 +1,25 @@
 require 'spec_helper'
 
+def path(given)
+  [ Dir.pwd, given ].join('/')
+end
+
 describe Ralawisify do
   describe '.generate' do
     subject { described_class.generate(source, output) }
 
-    let(:source) { 'spec/support/source.csv' }
-    let(:output) { 'tmp/output.csv' }
+    let(:source) { path 'spec/support/source.csv' }
+    let(:output) { path 'tmp/output.csv' }
 
-    let(:expected) { File.read('spec/support/output.csv') }
-    let(:generated) { File.read(output) }
+    let(:expected) { CSV.open(path 'spec/support/output.csv') }
+    let(:generated) { CSV.open(output) }
 
-    it 'generates matching output csv' do
-      expect(generated).to eq(expected)
+    context 'builds output csv' do
+      before { subject }
+
+      it 'with expected headers' do
+        expect(generated.headers).to eq(expected.headers)
+      end
     end
   end
 
