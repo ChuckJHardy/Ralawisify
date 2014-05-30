@@ -1,0 +1,14 @@
+#! /usr/bin/env ruby
+
+require 'clamp'
+require_relative './ralawisify'
+
+Clamp do
+
+  option ['-r', '--ralawise'], 'Source Ralawise CSV File', 'Full path to source Ralawise CSV file'
+  option ['-s', '--shopify'], 'Output Shopify CSV File', 'Full path to output Shopify CSV file'
+
+  def execute
+    Ralawisify.generate(ralawise, shopify)
+  end
+end
