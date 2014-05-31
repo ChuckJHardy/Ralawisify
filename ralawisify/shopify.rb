@@ -10,9 +10,9 @@ class Ralawisify
 
     def mapping
       {
-        'Handle' => nil,
-        'Title' => nil,
-        'Body (HTML)' => nil,
+        'Handle' => :formatted_handle,
+        'Title' => 'Name',
+        'Body (HTML)' => 'Description',
         'Vendor' => nil,
         'Type' => nil,
         'Tags' => nil,
@@ -44,7 +44,26 @@ class Ralawisify
     end
 
     def as_hash
-      mapping.inject({}) { |acc, (k,v)| acc.merge({ k => (v ? @row[v] : v) }) }
+      mapping.inject({}, &row)
+    end
+
+    private
+
+    def formatted_handle
+      [
+        @row['Brand Name'],
+        @row['Name']
+      ].map(&:downcase).join('-').gsub(' ', '-')
+    end
+
+    def row
+      ->(acc, (k,v)) { acc.merge({ k => value_for(v) }) }
+    end
+
+    def value_for(value)
+      send(value)
+    rescue NoMethodError, TypeError
+      @row[value]
     end
   end
 end
