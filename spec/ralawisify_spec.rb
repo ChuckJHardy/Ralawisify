@@ -11,14 +11,18 @@ describe Ralawisify do
     let(:source) { path 'spec/support/source.csv' }
     let(:output) { path 'tmp/output.csv' }
 
-    let(:expected) { CSV.open(path 'spec/support/output.csv') }
-    let(:generated) { CSV.open(output) }
+    let(:expected) { CSV.open(path('spec/support/output.csv'), 'r', headers: true) }
+    let(:generated) { CSV.open(output, 'r', headers: true) }
 
     context 'builds output csv' do
       before { subject }
 
-      it 'with expected headers' do
-        expect(generated.headers).to eq(expected.headers)
+      it 'with expected number of rows' do
+        expect(generated.readlines.size).to eq(1)
+      end
+
+      it 'with expected output' do
+        expect(generated.to_a[0]).to eq(expected.to_a[0])
       end
     end
   end

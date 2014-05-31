@@ -1,5 +1,4 @@
 require 'csv'
-require_relative 'ralawisify/output'
 require_relative 'ralawisify/shopify'
 
 class Ralawisify
@@ -12,16 +11,23 @@ class Ralawisify
   end
 
   def generate
-    output.write_headers
+    write_headers
+    write_rows
   end
 
   private
 
-  def output
-    @output ||= Output.new(shopify, @output_path)
+  def write_rows
+    CSV.foreach(@source_path, headers: :first_row) do |row|
+      add_row(Shopify.new(row).as_array, 'a+')
+    end
   end
 
-  def shopify
-    Shopify.new
+  def write_headers
+    add_row(Shopify.headers, 'wb')
+  end
+
+  def add_row(row, type)
+    CSV.open(@output_path, type) { |csv| csv.add_row(row) }
   end
 end
