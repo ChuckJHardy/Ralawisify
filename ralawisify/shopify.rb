@@ -13,10 +13,10 @@ class Ralawisify
         'Handle' => :formatted_handle,
         'Title' => 'Name',
         'Body (HTML)' => 'Description',
-        'Vendor' => nil,
+        'Vendor' => 'Brand Name',
         'Type' => nil,
         'Tags' => nil,
-        'Published' => nil,
+        'Published' => :is_published?,
         'Option1 Name' => nil,
         'Option1 Value' => nil,
         'Option2 Name' => nil,
@@ -54,6 +54,10 @@ class Ralawisify
         @row['Brand Name'],
         @row['Name']
       ].map(&:downcase).join('-').gsub(' ', '-')
+    end
+
+    def is_published?
+      'FALSE'
     end
 
     def row
