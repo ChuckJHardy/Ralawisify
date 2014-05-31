@@ -32,10 +32,10 @@ class Ralawisify
         'Variant Price' => 'Singleprice',
         'Variant Compare At Price' => 'Singleprice',
         'Variant Requires Shipping' => :shipping?,
-        'Variant Taxable' => nil,
+        'Variant Taxable' => :taxable?,
         'Variant Barcode' => nil,
-        'Image Src' => nil,
-        'Image Alt Text' => nil
+        'Image Src' => :image,
+        'Image Alt Text' => :image_alt
       }
     end
 
@@ -50,10 +50,15 @@ class Ralawisify
     private
 
     def formatted_handle
-      [
-        @rows.first['Brand Name'],
-        @rows.first['Name']
-      ].map(&:downcase).join('-').gsub(' ', '-')
+      title.map(&:downcase).join('-').gsub(' ', '-')
+    end
+
+    def image_alt
+      title.join(' ')
+    end
+
+    def title
+      [ @rows.first['Brand Name'], @rows.first['Name'] ]
     end
 
     def published?
@@ -61,6 +66,10 @@ class Ralawisify
     end
 
     def shipping?
+      'TRUE'
+    end
+
+    def taxable?
       'TRUE'
     end
 
@@ -74,6 +83,10 @@ class Ralawisify
 
     def inventory_quantity
       1
+    end
+
+    def image
+      'http://www.promotional-store.com/images/thumbs/' + @rows.first['LifeStylePic']
     end
 
     def tags
