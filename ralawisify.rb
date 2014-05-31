@@ -1,4 +1,5 @@
 require 'csv'
+require_relative 'ralawisify/shopify/row'
 require_relative 'ralawisify/shopify'
 
 class Ralawisify
