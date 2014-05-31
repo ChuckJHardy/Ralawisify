@@ -18,8 +18,8 @@ class Ralawisify
   private
 
   def write_rows
-    CSV.foreach(@source_path, headers: :first_row) do |row|
-      add_row(Shopify.new(row).as_array, 'a+')
+    source.each do |k, v|
+      add_row(Shopify.new(v).as_array, 'a+')
     end
   end
 
@@ -29,5 +29,9 @@ class Ralawisify
 
   def add_row(row, type)
     CSV.open(@output_path, type) { |csv| csv.add_row(row) }
+  end
+
+  def source
+    CSV.read(@source_path, headers: :first_row).group_by { |row| row['ProdGrp'] }
   end
 end

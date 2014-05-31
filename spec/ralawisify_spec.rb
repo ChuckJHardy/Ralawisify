@@ -27,5 +27,5 @@ describe Ralawisify do
     end
   end
 
-  after { File.delete(output) }
+  #after { File.delete(output) }
 end

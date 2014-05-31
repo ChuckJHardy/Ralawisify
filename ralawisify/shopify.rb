@@ -1,7 +1,7 @@
 class Ralawisify
   class Shopify
-    def initialize(row)
-      @row = row
+    def initialize(rows)
+      @rows = rows
     end
 
     def self.headers
@@ -15,7 +15,7 @@ class Ralawisify
         'Body (HTML)' => 'Description',
         'Vendor' => 'Brand Name',
         'Type' => nil,
-        'Tags' => nil,
+        'Tags' => :tags,
         'Published' => :is_published?,
         'Option1 Name' => nil,
         'Option1 Value' => nil,
@@ -51,13 +51,17 @@ class Ralawisify
 
     def formatted_handle
       [
-        @row['Brand Name'],
-        @row['Name']
+        @rows.first['Brand Name'],
+        @rows.first['Name']
       ].map(&:downcase).join('-').gsub(' ', '-')
     end
 
     def is_published?
       'FALSE'
+    end
+
+    def tags
+      @rows.map { |x| x['Subcategory'] }.uniq.join(', ')
     end
 
     def row
@@ -67,7 +71,7 @@ class Ralawisify
     def value_for(value)
       send(value)
     rescue NoMethodError, TypeError
-      @row[value]
+      @rows.first[value]
     end
   end
 end
