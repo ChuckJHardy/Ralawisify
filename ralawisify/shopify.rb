@@ -16,7 +16,7 @@ class Ralawisify
         'Vendor' => 'Brand Name',
         'Type' => nil,
         'Tags' => :tags,
-        'Published' => :is_published?,
+        'Published' => :published?,
         'Option1 Name' => nil,
         'Option1 Value' => nil,
         'Option2 Name' => nil,
@@ -26,12 +26,12 @@ class Ralawisify
         'Variant SKU' => 'SKU',
         'Variant Grams' => nil,
         'Variant Inventory Tracker' => nil,
-        'Variant Inventory Qty' => nil,
-        'Variant Inventory Policy' => nil,
-        'Variant Fulfillment Service' => nil,
-        'Variant Price' => nil,
-        'Variant Compare At Price' => nil,
-        'Variant Requires Shipping' => nil,
+        'Variant Inventory Qty' => :inventory_quantity,
+        'Variant Inventory Policy' => :inventory_policy,
+        'Variant Fulfillment Service' => :fulfillment,
+        'Variant Price' => 'Singleprice',
+        'Variant Compare At Price' => 'Singleprice',
+        'Variant Requires Shipping' => :shipping?,
         'Variant Taxable' => nil,
         'Variant Barcode' => nil,
         'Image Src' => nil,
@@ -56,8 +56,24 @@ class Ralawisify
       ].map(&:downcase).join('-').gsub(' ', '-')
     end
 
-    def is_published?
+    def published?
       'FALSE'
+    end
+
+    def shipping?
+      'TRUE'
+    end
+
+    def fulfillment
+      'manual'
+    end
+
+    def inventory_policy
+      'deny'
+    end
+
+    def inventory_quantity
+      1
     end
 
     def tags
