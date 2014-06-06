@@ -18,7 +18,7 @@ describe Ralawisify do
       before { subject }
 
       it 'with expected number of rows' do
-        expect(generated.readlines.size).to eq(1)
+        expect(generated.readlines.size).to eq(2)
       end
 
       it 'with expected output' do
@@ -27,5 +27,5 @@ describe Ralawisify do
     end
   end
 
-  #after { File.delete(output) }
+  after { File.delete(output) }
 end

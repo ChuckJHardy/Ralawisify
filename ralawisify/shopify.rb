@@ -40,23 +40,23 @@ class Ralawisify
     end
 
     def as_array
-      as_hash.values
-    end
-
-    def as_hash
-      mapping.inject({}, &row)
+      rows.map do |sku, products|
+        mapping.inject({}) do |acc, (k,v)| 
+          acc.merge({ k => value_for(v, products) })
+        end.values
+      end
     end
 
     private
 
-    def row
-      ->(acc, (k,v)) { acc.merge({ k => value_for(v) }) }
+    def rows
+      @rows.group_by { |row| row['SKU'] }
     end
 
-    def value_for(value)
-      Row.new(@rows).public_send(value)
+    def value_for(value, products)
+      Presenter.new(products).public_send(value)
     rescue NoMethodError, TypeError
-      @rows.first[value]
+      products.first[value]
     end
   end
 end
