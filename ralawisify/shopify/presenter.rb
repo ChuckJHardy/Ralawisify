@@ -48,6 +48,14 @@ class Ralawisify
       def tags
         @rows.map { |x| x['Subcategory'] }.uniq.join(', ')
       end
+
+      def option_one_name
+        'Size'
+      end
+
+      def type
+        'REPLACE'
+      end
     end
   end
 end

@@ -10,39 +10,40 @@ class Ralawisify
 
     def mapping
       {
-        'Handle' => :formatted_handle,
-        'Title' => 'Name',
-        'Body (HTML)' => 'Description',
-        'Vendor' => 'Brand Name',
-        'Type' => nil,
-        'Tags' => :tags,
-        'Published' => :published?,
-        'Option1 Name' => nil,
-        'Option1 Value' => nil,
-        'Option2 Name' => nil,
-        'Option2 Value' => nil,
-        'Option3 Name' => nil,
-        'Option3 Value' => nil,
-        'Variant SKU' => 'SKU',
-        'Variant Grams' => nil,
-        'Variant Inventory Tracker' => nil,
-        'Variant Inventory Qty' => :inventory_quantity,
-        'Variant Inventory Policy' => :inventory_policy,
-        'Variant Fulfillment Service' => :fulfillment,
-        'Variant Price' => 'Singleprice',
-        'Variant Compare At Price' => 'Singleprice',
-        'Variant Requires Shipping' => :shipping?,
-        'Variant Taxable' => :taxable?,
-        'Variant Barcode' => nil,
-        'Image Src' => :image,
-        'Image Alt Text' => :image_alt
+        'Handle'                      => { all: true, content: :formatted_handle },
+        'Title'                       => { all: false, content: 'Name' },
+        'Body (HTML)'                 => { all: false, content: 'Description' },
+        'Vendor'                      => { all: false, content: 'Brand Name' },
+        'Type'                        => { all: false, content: :type },
+        'Tags'                        => { all: false, content: :tags },
+        'Published'                   => { all: false, content: :published? },
+        'Option1 Name'                => { all: true, content: :option_one_name },
+        'Option1 Value'               => { all: true, content: 'Size' },
+        'Option2 Name'                => { all: true, content: nil },
+        'Option2 Value'               => { all: true, content: nil },
+        'Option3 Name'                => { all: true, content: nil },
+        'Option3 Value'               => { all: true, content: nil },
+        'Variant SKU'                 => { all: true, content: 'SKU' },
+        'Variant Grams'               => { all: true, content: nil },
+        'Variant Inventory Tracker'   => { all: true, content: nil },
+        'Variant Inventory Qty'       => { all: true, content: :inventory_quantity },
+        'Variant Inventory Policy'    => { all: true, content: :inventory_policy },
+        'Variant Fulfillment Service' => { all: true, content: :fulfillment },
+        'Variant Price'               => { all: true, content: 'Singleprice' },
+        'Variant Compare At Price'    => { all: true, content: 'Singleprice' },
+        'Variant Requires Shipping'   => { all: true, content: :shipping? },
+        'Variant Taxable'             => { all: true, content: :taxable? },
+        'Variant Barcode'             => { all: true, content: nil },
+        'Image Src'                   => { all: false, content: :image },
+        'Image Alt Text'              => { all: false, content: :image_alt },
       }
     end
 
     def as_array
-      rows.map do |sku, products|
+      rows.each_with_index.map do |(_, products), index|
         mapping.inject({}) do |acc, (k,v)| 
-          acc.merge({ k => value_for(v, products) })
+          value = (index.zero? || v[:all]) ? value_for(v, products) : nil
+          acc.merge({ k => value })
         end.values
       end
     end
@@ -54,9 +55,9 @@ class Ralawisify
     end
 
     def value_for(value, products)
-      Presenter.new(products).public_send(value)
+      Presenter.new(products).public_send(value[:content])
     rescue NoMethodError, TypeError
-      products.first[value]
+      products.first[value[:content]]
     end
   end
 end
