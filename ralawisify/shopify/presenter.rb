@@ -53,6 +53,10 @@ class Ralawisify
         'Size'
       end
 
+      def option_two_name
+        'Color'
+      end
+
       def type
         'REPLACE'
       end
