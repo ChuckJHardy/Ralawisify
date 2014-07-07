@@ -18,7 +18,10 @@ A command line Ruby application for mapping a [Ralawise](http://www.ralawise.com
 
 ## Usage
 
-    ./clamp -r '/Users/Me/Downloads/RalawiseSource.csv' -s '/Users/Me/Desktop/Shopify.csv'
+    ./clamp \
+    -r '/Users/Me/Downloads/RalawiseSource.csv' \
+    -s '/Users/Me/Desktop/Shopify.csv' \	
+    -i 'https://dl.dropboxusercontent.com/u/2413173/images'
     
 ## Example Data Files
 Example `csv` files for can be found within the `spec/support` directory.

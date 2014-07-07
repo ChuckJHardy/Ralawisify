@@ -1,8 +1,8 @@
 class Ralawisify
   class Shopify
     class Presenter
-      def initialize(rows)
-        @rows = rows
+      def initialize(rows, image_url)
+        @rows, @image_url = rows, image_url
       end
 
       def formatted_handle
@@ -42,7 +42,11 @@ class Ralawisify
       end
 
       def image
-        'http://www.promotional-store.com/images/thumbs/' + @rows.first['LifeStylePic']
+        [image_url, @rows.first['LifeStylePic']].join('/')
+      end
+
+      def image_url
+        @image_url || ''
       end
 
       def tags

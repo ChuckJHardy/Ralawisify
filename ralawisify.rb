@@ -3,12 +3,14 @@ require_relative 'ralawisify/shopify/presenter'
 require_relative 'ralawisify/shopify'
 
 class Ralawisify
-  def initialize(source_path, output_path)
-    @source_path, @output_path = source_path, output_path
+  def initialize(source_path, output_path, image_url)
+    @source_path = source_path
+    @output_path = output_path
+    @image_url = image_url
   end
 
-  def self.generate(source_path, output_path)
-    new(source_path, output_path).generate
+  def self.generate(source_path, output_path, image_url)
+    new(source_path, output_path, image_url).generate
   end
 
   def generate
@@ -23,7 +25,7 @@ class Ralawisify
   end
 
   def write_row
-    ->(_, v) { Shopify.new(v).as_array.each { |row| add_row(row) } }
+    ->(_, v) { Shopify.new(v, @image_url).as_array.each { |row| add_row(row) } }
   end
 
   def write_headers

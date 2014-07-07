@@ -6,10 +6,11 @@ end
 
 describe Ralawisify do
   describe '.generate' do
-    subject { described_class.generate(source, output) }
+    subject { described_class.generate(source, output, image_url) }
 
     let(:source) { path 'spec/support/source.csv' }
     let(:output) { path 'tmp/output.csv' }
+    let(:image_url) { 'http://www.promotional-store.com/images/thumbs' }
 
     let(:expected) { CSV.open(path('spec/support/output.csv'), 'r', headers: true) }
     let(:generated) { CSV.open(output, 'r', headers: true) }

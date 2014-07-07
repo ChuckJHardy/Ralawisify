@@ -1,11 +1,11 @@
 class Ralawisify
   class Shopify
-    def initialize(rows)
-      @rows = rows
+    def initialize(rows, image_url)
+      @rows, @image_url = rows, image_url
     end
 
     def self.headers
-      new(nil).mapping.keys
+      new(nil, '').mapping.keys
     end
 
     def mapping
@@ -55,7 +55,7 @@ class Ralawisify
     end
 
     def value_for(value, products)
-      Presenter.new(products).public_send(value[:content])
+      Presenter.new(products, @image_url).public_send(value[:content])
     rescue NoMethodError, TypeError
       products.first[value[:content]]
     end
