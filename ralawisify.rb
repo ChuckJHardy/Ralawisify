@@ -1,4 +1,6 @@
 require 'csv'
+require_relative 'ralawisify/shopify/mapper'
+require_relative 'ralawisify/shopify/adapter'
 require_relative 'ralawisify/shopify/presenter'
 require_relative 'ralawisify/shopify'
 
