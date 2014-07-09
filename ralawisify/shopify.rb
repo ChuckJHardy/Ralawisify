@@ -9,7 +9,7 @@ class Ralawisify
     end
 
     def as_array
-      rows.each_with_index.map(&mapper)
+      rows.each_with_index.map(&mapper).delete_if(&:empty?)
     end
 
     private

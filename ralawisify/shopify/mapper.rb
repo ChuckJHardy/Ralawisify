@@ -20,7 +20,7 @@ class Ralawisify
 
       def value
         ->(acc, (k,v)) { 
-          if index < 100
+          if index < 101
             value = (index.zero? || v[:all]) ? value_for(v) : nil
             acc.merge({ k => value })
           else
