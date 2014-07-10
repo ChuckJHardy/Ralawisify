@@ -3,7 +3,7 @@ class Ralawisify
     class Adapter
       def self.adapt
         {
-          'Handle'                      => { all: true, content: :formatted_handle },
+          'Handle'                      => { all: true, content: :handle },
           'Title'                       => { all: false, content: 'Name' },
           'Body (HTML)'                 => { all: false, content: 'Description' },
           'Vendor'                      => { all: false, content: 'Brand Name' },

@@ -5,7 +5,7 @@ class Ralawisify
         @rows = rows
       end
 
-      def formatted_handle
+      def handle
         title.map(&:downcase).join('-').gsub(' ', '-')
       end
 
@@ -14,7 +14,7 @@ class Ralawisify
       end
 
       def title
-        [ @rows.first['Brand Name'], @rows.first['Name'] ]
+        [ @rows.first['ProdGrp'], @rows.first['Name'] ]
       end
 
       def published?
