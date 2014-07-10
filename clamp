@@ -6,10 +6,9 @@ require_relative './ralawisify'
 Clamp do
 
   option ['-r', '--ralawise'], 'Source Ralawise CSV File', 'Full path to source Ralawise CSV file'
-  option ['-s', '--shopify'], 'Output Shopify CSV File', 'Full path to output Shopify CSV file'
   option ['-i', '--image_url'], 'The Base URL for Images', 'Where did you upload the Images?'
 
   def execute
-    Ralawisify.generate(ralawise, shopify, image_url)
+    Ralawisify.generate(ralawise, image_url)
   end
 end

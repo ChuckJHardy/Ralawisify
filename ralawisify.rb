@@ -5,40 +5,49 @@ require_relative 'ralawisify/shopify/presenter'
 require_relative 'ralawisify/shopify'
 
 class Ralawisify
-  def initialize(source_path, output_path, image_url)
-    @source_path = source_path
-    @output_path = output_path
-    @image_url = image_url
+  LIMIT = 200
+
+  def initialize(source_path, image_url)
+    @source_path, @image_url = source_path, image_url
   end
 
-  def self.generate(source_path, output_path, image_url)
-    new(source_path, output_path, image_url).generate
+  def self.generate(source_path, image_url)
+    new(source_path, image_url).generate
   end
 
   def generate
-    write_headers
     write_rows
   end
 
   private
 
   def write_rows
-    source.each(&write_row)
+    source.each_with_index(&write)
   end
 
-  def write_row
-    ->(_, v) { Shopify.new(v, @image_url).as_array.each { |row| add_row(row) } }
+  def write
+    ->((_, v), index) { 
+      print '.'
+      Shopify.new(v, @image_url).as_array.each { |row| add_row(row, path_for(index)) } 
+    }
   end
 
-  def write_headers
-    add_row(Shopify.headers, 'wb')
+  def path_for(index)
+    [Dir.pwd, 'tmp', "output_#{index/LIMIT}.csv"].join('/')
   end
 
-  def add_row(row, type='a+')
-    CSV.open(@output_path, type) { |csv| csv.add_row(row) }
+  def add_row(row, path, type='a+')
+    CSV.open(path, type) do |csv| 
+      csv.add_row(Shopify.headers) if csv.first.nil?
+      csv.add_row(row)
+    end
+  end
+
+  def size
+    @size ||= source.size
   end
 
   def source
-    CSV.read(@source_path, headers: :first_row).group_by { |row| row['ProdGrp'] }
+    @source ||= CSV.read(@source_path, headers: :first_row).group_by { |row| row['ProdGrp'] }
   end
 end

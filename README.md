@@ -20,8 +20,9 @@ A command line Ruby application for mapping a [Ralawise](http://www.ralawise.com
 
     ./clamp \
     -r '/Users/Me/Downloads/RalawiseSource.csv' \
-    -s '/Users/Me/Desktop/Shopify.csv' \	
     -i 'https://dl.dropboxusercontent.com/u/2413173/images'
+
+Data files are placed within the `tmp` directory in seperate files. File sizes are limited as large files seem to crash Shopify.
     
 ## Example Data Files
 Example `csv` files for can be found within the `spec/support` directory.
