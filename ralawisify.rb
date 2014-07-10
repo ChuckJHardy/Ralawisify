@@ -1,18 +1,21 @@
 require 'csv'
+require_relative 'ralawisify/configuration'
 require_relative 'ralawisify/shopify/mapper'
 require_relative 'ralawisify/shopify/adapter'
 require_relative 'ralawisify/shopify/presenter'
 require_relative 'ralawisify/shopify'
 
 class Ralawisify
+  extend Configure
+
   LIMIT = 200
 
-  def initialize(source_path, image_url)
-    @source_path, @image_url = source_path, image_url
+  def initialize(source_path)
+    @source_path = source_path
   end
 
-  def self.generate(source_path, image_url)
-    new(source_path, image_url).generate
+  def self.generate(source_path)
+    new(source_path).generate
   end
 
   def generate
@@ -28,7 +31,7 @@ class Ralawisify
   def write
     ->((_, v), index) { 
       print '.'
-      Shopify.new(v, @image_url).as_array.each { |row| add_row(row, path_for(index)) } 
+      Shopify.new(v).as_array.each { |row| add_row(row, path_for(index)) }
     }
   end
 

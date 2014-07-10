@@ -1,7 +1,7 @@
 class Ralawisify
   class Shopify
-    def initialize(rows, image_url)
-      @rows, @image_url = rows, image_url
+    def initialize(rows)
+      @rows = rows
     end
 
     def self.headers
@@ -15,9 +15,7 @@ class Ralawisify
     private
 
     def mapper
-      ->((_, products), index) { 
-        Mapper.map(products, index, @image_url).values 
-      }
+      ->((_, products), index) { Mapper.map(products, index).values }
     end
 
     def rows

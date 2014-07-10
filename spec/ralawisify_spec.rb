@@ -6,14 +6,22 @@ end
 
 describe Ralawisify do
   describe '.generate' do
-    subject { described_class.generate(source, image_url) }
+    subject { described_class.generate(source) }
 
     let(:source) { path 'spec/support/source.csv' }
     let(:output) { path 'tmp/output_0.csv' }
     let(:image_url) { 'http://www.promotional-store.com/images/thumbs' }
+    let(:available_images) { path 'spec/support/available_images.csv' }
 
     let(:expected) { CSV.open(path('spec/support/output.csv'), 'r', headers: true) }
     let(:generated) { CSV.open(output, 'r', headers: true) }
+
+    before do
+      Ralawisify.configure do |config|
+        config.image_url = image_url
+        config.available_images = CSV.open(available_images).flat_map(&:first)
+      end
+    end
 
     context 'builds output csv' do
       before { subject }

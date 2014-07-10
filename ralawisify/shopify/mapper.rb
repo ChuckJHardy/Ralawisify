@@ -1,14 +1,12 @@
 class Ralawisify
   class Shopify
     class Mapper
-      def initialize(products, index, image_url)
-        @products = products
-        @index = index
-        @image_url = image_url
+      def initialize(products, index)
+        @products, @index = products, index
       end
 
-      def self.map(products, index, image_url)
-        new(products, index, image_url).as_hash
+      def self.map(products, index)
+        new(products, index).as_hash
       end
 
       def as_hash
@@ -34,7 +32,7 @@ class Ralawisify
       end
 
       def value_for(value)
-        Presenter.new(products, @image_url).public_send(value[:content])
+        Presenter.new(products).public_send(value[:content])
       rescue NoMethodError, TypeError
         products.first[value[:content]]
       end

@@ -7,8 +7,22 @@ Clamp do
 
   option ['-r', '--ralawise'], 'Source Ralawise CSV File', 'Full path to source Ralawise CSV file'
   option ['-i', '--image_url'], 'The Base URL for Images', 'Where did you upload the Images?'
+  option ['-l', '--image_list'], 'Ruby array of available images file names', 'Used to check if an image is missing.'
 
   def execute
-    Ralawisify.generate(ralawise, image_url)
+    Ralawisify.configure do |config|
+      config.image_url = image_url
+      config.available_images = images
+    end
+
+    Ralawisify.generate(ralawise)
+  end
+
+  private
+
+  def images
+    CSV.open(image_list).flat_map(&:first)
+  rescue Errno::ENOENT
+    []
   end
 end

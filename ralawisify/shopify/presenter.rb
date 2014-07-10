@@ -1,8 +1,8 @@
 class Ralawisify
   class Shopify
     class Presenter
-      def initialize(rows, image_url)
-        @rows, @image_url = rows, image_url
+      def initialize(rows)
+        @rows = rows
       end
 
       def formatted_handle
@@ -42,11 +42,19 @@ class Ralawisify
       end
 
       def image
-        [image_url, @rows.first['LifeStylePic']].join('/')
+        [Ralawisify.configuration.image_url, image_or_error].join('/')
       end
 
-      def image_url
-        @image_url || ''
+      def image_or_error
+        image? ? life_style_image : 'error.jpeg'
+      end
+
+      def image?
+        Ralawisify.configuration.available_images.include?(life_style_image)
+      end
+
+      def life_style_image
+        @rows.first['LifeStylePic']
       end
 
       def tags
