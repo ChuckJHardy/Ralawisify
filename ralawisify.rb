@@ -1,4 +1,6 @@
 require 'csv'
+require 'sanitize'
+
 require_relative 'ralawisify/configuration'
 require_relative 'ralawisify/shopify/mapper'
 require_relative 'ralawisify/shopify/adapter'

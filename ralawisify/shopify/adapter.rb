@@ -5,7 +5,7 @@ class Ralawisify
         {
           'Handle'                      => { all: true, content: :handle },
           'Title'                       => { all: false, content: 'Name' },
-          'Body (HTML)'                 => { all: false, content: 'Description' },
+          'Body (HTML)'                 => { all: false, content: :description },
           'Vendor'                      => { all: false, content: 'Brand Name' },
           'Type'                        => { all: false, content: :type },
           'Tags'                        => { all: false, content: :tags },

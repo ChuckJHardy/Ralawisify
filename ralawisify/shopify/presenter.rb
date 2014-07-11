@@ -84,6 +84,13 @@ class Ralawisify
       def sub_category
         @rows.first['Subcategory']
       end
+
+      def description
+        Sanitize.fragment(
+          @rows.first['Description'], 
+          elements: ['b', 'p', 'br']
+        )
+      end
     end
   end
 end
