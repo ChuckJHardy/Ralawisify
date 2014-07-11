@@ -70,7 +70,19 @@ class Ralawisify
       end
 
       def type
-        'REPLACE'
+        directory_category? ? sub_category : category
+      end
+
+      def directory_category?
+        category.include?("Directory")
+      end
+
+      def category
+        @rows.first['Category']
+      end
+
+      def sub_category
+        @rows.first['Subcategory']
       end
     end
   end
