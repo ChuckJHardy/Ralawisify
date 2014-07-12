@@ -10,7 +10,7 @@ require_relative 'ralawisify/shopify'
 class Ralawisify
   extend Configure
 
-  LIMIT = 200
+  LIMIT = 1000
 
   def initialize(source_path)
     @source_path = source_path

@@ -23,7 +23,7 @@ class Ralawisify
           'Variant Inventory Policy'    => { all: true, content: :inventory_policy },
           'Variant Fulfillment Service' => { all: true, content: :fulfillment },
           'Variant Price'               => { all: true, content: 'Singleprice' },
-          'Variant Compare At Price'    => { all: true, content: 'Singleprice' },
+          'Variant Compare At Price'    => { all: true, content: nil },
           'Variant Requires Shipping'   => { all: true, content: :shipping? },
           'Variant Taxable'             => { all: true, content: :taxable? },
           'Variant Barcode'             => { all: true, content: nil },
