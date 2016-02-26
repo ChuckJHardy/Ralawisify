@@ -3,9 +3,9 @@ SimpleCov.configure do
   maximum_coverage_drop 5
 
   start('rails') do
-    formatter SimpleCov::Formatter::MultiFormatter[
+    formatter SimpleCov::Formatter::MultiFormatter.new([
       SimpleCov::Formatter::HTMLFormatter
-    ]
+    ])
 
     add_group "Long files" do |src_file|
       src_file.lines.count > 100
